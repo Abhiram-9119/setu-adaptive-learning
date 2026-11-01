@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Setu | A Bridge for Every Learner | Team MVP</title>
+<style>
+:root{--i:#4338CA;--p:#7C3AED;--k:#16193B;--m:#5B6086;--s:#EEF0FF;--g:#1F9D63;--r:#E0483E;--a:#E8A21A;--l:#D9DCF2}
+*{box-sizing:border-box}body{margin:0;font:16px/1.55 system-ui,"Segoe UI",sans-serif;background:#F6F7FF;color:var(--k)}
+header{background:linear-gradient(120deg,var(--i),var(--p));color:#fff;padding:12px 0}
+.w{max-width:780px;margin:auto;padding:0 14px}header .w{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+h1{font:700 26px Georgia,serif;margin:0}header small{display:block;opacity:.85;font-size:13px}
+h2{font:700 21px Georgia,serif;margin:0 0 8px}h3{margin:0 0 6px;font-size:16px}
+.card{background:#fff;border:1px solid var(--l);border-radius:16px;padding:16px;margin:12px 0}
+.why{background:var(--s);border-left:4px solid var(--p);border-radius:10px;padding:10px 12px;margin:12px 0;font-size:14px}
+button,select,input{font:inherit;border-radius:10px}
+button{border:1px solid var(--i);background:#fff;color:var(--i);padding:9px 14px;cursor:pointer;margin:4px 4px 4px 0}
+button.p,button.on{background:var(--i);color:#fff}button:disabled{opacity:.45;cursor:not-allowed}
+header button{border-color:#fff;background:transparent;color:#fff}header button.on{background:#fff;color:var(--i)}
+select,input{border:1px solid var(--l);padding:9px;width:100%;background:#fff}label{font-size:13px;color:var(--m);display:block;margin:8px 0 2px}
+.o{display:block;width:100%;text-align:left;font-size:20px;padding:12px 14px}
+.chip{display:inline-block;padding:2px 10px;border-radius:99px;color:#fff;font-size:13px;background:var(--p)}
+.st span{display:inline-block;padding:4px 12px;border-radius:99px;background:#fff;border:1px solid var(--l);margin:2px 4px 2px 0;font-size:13px}
+.st .cur{background:var(--i);color:#fff;border-color:var(--i)}
+.bar{height:12px;background:#E4E6F0;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--i),var(--p))}
+.d{display:inline-block;width:18px;height:18px;border-radius:5px;vertical-align:middle}
+.G{background:var(--g)}.L{background:var(--a)}.R{background:var(--r)}.N{background:#E4E6F0}.A{background:#BFE8D2;border:2px dashed #1F9D63}
+table{border-collapse:collapse;width:100%}td,th{padding:6px;font-size:14px;text-align:center}td:first-child,th:first-child{text-align:left}
+.fb{padding:10px 12px;border-radius:10px;margin:10px 0}.ok{background:#DFF3E8}.no{background:#FCE6E3}
+small,.sm{color:var(--m);font-size:13px}.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:560px){.g2{grid-template-columns:1fr}}
+.ws li{margin:14px 0;font-size:18px}
+@media print{header,.np{display:none}body{background:#fff}.card{border:0}}
+</style></head><body>
+<header><div class="w"><div><h1>Setu</h1><small id="sub"></small></div><div class="np" id="nav"></div></div></header>
+<div class="w" id="app"></div>
+<script>
+const CHN=["INT","TRN","LIN"],TG={6:"INT",7:"TRN",8:"LIN"};
+const CN={INT:["Integers","पूर्णांक",6],TRN:["Transposing equations","पक्षांतरण",7],LIN:["Linear equations","रैखिक समीकरण",8]};
+const QCQ={LIN:["l3","l4"],TRN:["t4","t5"],INT:["i4","i5"]};
+const U={sub:["A bridge for every learner","हर विद्यार्थी के लिए एक सेतु"],stu:["Student","छात्र"],tea:["Teacher","शिक्षक"],
+name:["Your name","आपका नाम"],cls:["Your class","आपकी कक्षा"],lang:["Language","भाषा"],start:["Start learning","सीखना शुरू करें"],
+soon:["not built yet","अभी उपलब्ध नहीं"],sup:["Demo content: Class 6 Integers, Class 7 Transposing equations, Class 8 Linear equations (Maths). Classes 9 and 10 are not built yet.","डेमो सामग्री: कक्षा 6 पूर्णांक, कक्षा 7 पक्षांतरण, कक्षा 8 रैखिक समीकरण (गणित)। कक्षा 9 और 10 अभी नहीं बनी हैं।"],
+hello:["Hello","नमस्ते"],prog:["Progress","प्रगति"],qc:["Quick Check","क्विक चेक"],learn:["Learn","सीखें"],sol:["Solve","हल करें"],test:["Test","परीक्षा"],
+why:["Why this step","यह कदम क्यों"],map:["Concept map. Each arrow means “is needed for”.","अवधारणा मानचित्र। तीर का अर्थ है “के लिए ज़रूरी”।"],
+gap:["Possible gap","संभावित कमी"],here:["You are here","आप यहाँ हैं"],okc:["Looks fine","ठीक लगता है"],find:["Find x or the value:","मान निकालिए:"],
+hint:["Hint","संकेत"],ok:["Correct!","सही!"],no:["Not quite.","पूरी तरह नहीं।"],ans:["Answer","उत्तर"],next:["Next","आगे"],
+exm:["Worked example","हल किया उदाहरण"],go:["Start practice","अभ्यास शुरू करें"],alt:["A different explanation","दूसरा तरीका"],
+rst:["Restart demo","डेमो फिर शुरू करें"],qn:["Question","प्रश्न"],
+d1:["A possible learning gap","संभावित सीखने की कमी"],dn:["This is a possible learning gap, not a final diagnosis. Setu asks only 2 questions per topic, so a careless slip or a lucky guess can mislead it. Solve and Test keep checking, and your teacher can change your path.","यह एक संभावित कमी है, अंतिम निदान नहीं। Setu हर विषय पर केवल 2 प्रश्न पूछता है, इसलिए लापरवाही की गलती या अंदाज़ा भी भटका सकता है। हल और परीक्षा में जाँच जारी रहती है और शिक्षक आपका रास्ता बदल सकते हैं।"],
+rdy:["Both questions on your class topic were correct, so Setu saw no sign of a gap here. It sends you to the Test to confirm.","आपकी कक्षा के विषय के दोनों उत्तर सही थे, इसलिए यहाँ कमी नहीं दिखी। पुष्टि के लिए परीक्षा दें।"],
+toL:["Start Learn","सीखना शुरू करें"],toT:["Go to Test","परीक्षा पर जाएँ"],sc:["Score","अंक"],
+pass:["Passed! 80% or more.","पास! 80% या अधिक।"],unl:["Unlocked","खुल गया"],fin:["You completed the path for your class. Check the Teacher tab.","आपने अपनी कक्षा का रास्ता पूरा किया। शिक्षक टैब देखें।"],
+rv1:["Recommended: practise this topic again, then retake the Test.","सुझाव: इस विषय का फिर अभ्यास करें, फिर परीक्षा दें।"],rv2:["Recommended: re-learn with a different explanation, then retake the Test.","सुझाव: दूसरे तरीके से फिर सीखें, फिर परीक्षा दें।"],
+rvb:["Revise now","अभी दोहराएँ"],rt:["Retake Test","फिर परीक्षा दें"],cont:["Continue","जारी रखें"],
+tw:["Class view","कक्षा व्यू"],fic:["Demonstration students are fictional. Only the row marked (live) is real data from this browser.","डेमो छात्र काल्पनिक हैं। केवल (live) वाली पंक्ति इस ब्राउज़र का असली डेटा है।"],
+cm:["Class mastery by concept (students marked Strong)","अवधारणा अनुसार कक्षा दक्षता (मज़बूत छात्र)"],grp:["Suggested groups","सुझाए गए समूह"],
+rev:["Revise","दोहराएँ"],rdn:["Ready for the next topic","अगले विषय के लिए तैयार"],ext:["Extend (all Strong)","चुनौती दें (सब मज़बूत)"],
+ap:["Approve","स्वीकृत करें"],apd:["Approved ✓","स्वीकृत ✓"],ws:["Worksheet","वर्कशीट"],pr:["Print","प्रिंट करें"],bk:["Back","वापस"],
+mis:["Live student's mistake patterns","लाइव छात्र की गलतियाँ"],none:["None yet","अभी नहीं"],al:["Alert (shown in this demo only): the live student scored below 60% and needs a check-in.","चेतावनी (केवल इस डेमो में): लाइव छात्र 60% से कम आया, बात करें।"],
+as:["Assign a topic to the live student","लाइव छात्र को विषय दें"],asb:["Assign","दें"],noS:["No live student yet. Start a student journey first.","अभी कोई लाइव छात्र नहीं। पहले छात्र यात्रा शुरू करें।"],
+nm:["Name ______   Date ______","नाम ______   दिनांक ______"],key:["Answer key","उत्तर कुंजी"],cl:["Class","कक्षा"],nreq:["Please enter your name to start.","शुरू करने के लिए अपना नाम लिखें।"],tst:["Quick Check passed: ready for the Test","क्विक चेक पास: परीक्षा के लिए तैयार"],nst:["Not started","शुरू नहीं किया"],lk:["needs earlier topics first","पहले पिछले विषय ज़रूरी"],ag:["Assumed OK from Quick Check","क्विक चेक से ठीक माना"]};
+const HINT={INT:["Draw a number line and move step by step.","संख्या रेखा बनाइए और कदम गिनिए।"],TRN:["Do the same to both sides. A number moved across = flips its sign.","दोनों ओर एक ही क्रिया करें। “=” के पार जाने पर चिह्न बदलता है।"],LIN:["Open brackets first, then collect x on one side.","पहले कोष्ठक खोलें, फिर x को एक ओर लाएँ।"]};
+const MIS={sign:["A number moved across “=” must change its sign (+ becomes −).","“=” के पार जाने पर संख्या का चिह्न बदलता है (+ से −)।"],
+op:["Do the same operation on both sides. Finish by dividing by the number next to x.","दोनों ओर एक ही क्रिया करें। अंत में x के साथ वाली संख्या से भाग दें।"],
+ign:["Watch the signs. Use a number line to count the steps.","चिह्न देखिए। कदम गिनने के लिए संख्या रेखा लें।"],
+mul:["Same signs multiply to +, different signs multiply to −.","समान चिह्न का गुणनफल +, भिन्न चिह्न का −।"],
+dbl:["Subtracting a negative number is the same as adding a positive one.","ऋणात्मक संख्या घटाना धनात्मक जोड़ने जैसा है।"],
+brk:["Multiply every term inside the bracket, not just the first.","कोष्ठक के अंदर हर पद को गुणा करें, सिर्फ़ पहले को नहीं।"]};
+const LES={INT:[[["Integers are whole numbers, positive or negative. On a number line, adding moves you right and subtracting moves you left.","पूर्णांक धन या ऋण पूरी संख्याएँ हैं। संख्या रेखा पर जोड़ने से दाएँ और घटाने से बाएँ चलते हैं।"],["−5 + 8: start at −5, move 8 steps right, land on 3.","−5 + 8: −5 से 8 कदम दाएँ चलें, उत्तर 3।"]],
+[["Think of money. Owing ₹7 and earning ₹10 leaves you ₹3 better off. Subtracting a negative is like removing a debt: it helps you.","पैसे की सोचिए। ₹7 उधार और ₹10 कमाई से ₹3 बचते हैं। ऋण हटाना यानी फ़ायदा।"],["−8 − (−5) = −8 + 5 = −3.","−8 − (−5) = −8 + 5 = −3।"]]],
+TRN:[[["An equation is a balance. Whatever you do to one side, do the same to the other. Moving a number across “=” changes its sign: +3 becomes −3.","समीकरण एक तराज़ू है। एक ओर जो करें, दूसरी ओर भी करें। “=” के पार जाने पर चिह्न बदलता है: +3 से −3।"],["2x + 3 = 11 → 2x = 11 − 3 = 8 → x = 8 ÷ 2 = 4.","2x + 3 = 11 → 2x = 11 − 3 = 8 → x = 8 ÷ 2 = 4।"]],
+[["Picture 2 bags and 3 coins balancing 11 coins. Take 3 coins off both sides: 2 bags = 8 coins, so 1 bag = 4 coins.","2 थैले और 3 सिक्के, 11 सिक्कों के बराबर हैं। दोनों ओर से 3 सिक्के हटाइए: 2 थैले = 8 सिक्के, इसलिए 1 थैला = 4 सिक्के।"],["Check: 2 × 4 + 3 = 11 ✓","जाँच: 2 × 4 + 3 = 11 ✓"]]],
+LIN:[[["Collect all the x terms on one side and the plain numbers on the other, then divide. Use transposing at every step.","सारे x वाले पद एक ओर और संख्याएँ दूसरी ओर लाइए, फिर भाग दीजिए। हर कदम पर पक्षांतरण करें।"],["5x − 3 = 2x + 9 → 5x − 2x = 9 + 3 → 3x = 12 → x = 4.","5x − 3 = 2x + 9 → 5x − 2x = 9 + 3 → 3x = 12 → x = 4।"]],
+[["Three steps: (1) open brackets, (2) move x terms left and numbers right, (3) divide. Check by putting x back.","तीन कदम: (1) कोष्ठक खोलें, (2) x बाएँ और संख्याएँ दाएँ लाएँ, (3) भाग दें। x रखकर जाँचें।"],["3(x + 2) = 18 → 3x + 6 = 18 → 3x = 12 → x = 4.","3(x + 2) = 18 → 3x + 6 = 18 → 3x = 12 → x = 4।"]]]};
+// [id, concept, level, question, correct, [wrong, mistake-tag], ...]
+const Q=[["i1","INT",1,"−5 + 8","3",["−3","ign"],["13","ign"]],["i2","INT",1,"7 − 10","−3",["3","ign"],["17","ign"]],["i3","INT",1,"−2 − 4","−6",["2","ign"],["−2","ign"]],
+["i4","INT",2,"−4 − 6","−10",["−2","ign"],["10","ign"]],["i5","INT",2,"9 + (−12)","−3",["3","ign"],["21","ign"]],["i6","INT",2,"(−3) × 4","−12",["12","mul"],["−1","mul"]],
+["i7","INT",3,"−8 − (−5)","−3",["−13","dbl"],["3","ign"]],["i8","INT",3,"(−6) × (−3)","18",["−18","mul"],["−9","mul"]],
+["t1","TRN",1,"x + 3 = 7","4",["10","sign"],["−4","sign"]],["t2","TRN",1,"x − 2 = 5","7",["3","sign"],["10","op"]],["t3","TRN",1,"2x = 10","5",["20","op"],["8","op"]],
+["t4","TRN",2,"2x + 3 = 11","4",["7","sign"],["8","op"]],["t5","TRN",2,"3x − 5 = 10","5",["5/3","sign"],["15","op"]],["t6","TRN",2,"4x + 6 = 22","4",["7","sign"],["16","op"]],
+["t7","TRN",3,"2x + 7 = 15","4",["11","sign"],["8","op"]],["t8","TRN",3,"5x − 8 = 12","4",["4/5","sign"],["20","op"]],
+["l1","LIN",1,"3x + 1 = x + 9","4",["5","sign"],["8","op"]],["l2","LIN",1,"4x = 2x + 6","3",["1","sign"],["6","op"]],["l3","LIN",2,"5x − 3 = 2x + 9","4",["2","sign"],["12","op"]],
+["l4","LIN",2,"3(x + 2) = 18","4",["16/3","brk"],["8","sign"]],["l5","LIN",2,"2(x − 1) = x + 5","7",["6","brk"],["3","sign"]],["l6","LIN",2,"6x − 4 = 2x + 8","3",["1","sign"],["12","op"]],
+["l7","LIN",3,"x/2 + 3 = 7","8",["20","sign"],["2","op"]],["l8","LIN",3,"3(2x − 1) = 4x + 5","4",["3","brk"],["1","sign"]]];
+const SEED=[["Aarav","GGG"],["Diya","GGL"],["Meena","GLN"],["Ravi","GRN"],["Sneha","LRN"],["Farhan","RNN"],["Joseph","GGG"],["Lakshmi","GLN"],["Kiran","GGN"],["Tara","NNN"]];
+const fresh=()=>({v:2,lang:0,tab:0,name:"",cls:8,phase:"home",ml:{INT:{m:.5,n:0},TRN:{m:.5,n:0},LIN:{m:.5,n:0}},passed:{},ok:{},log:{},seen:{},cur:null,root:null,v1:0,qc:null,sv:null,te:null,res:null,q:null,hint:0,fb:null,why:"",alert:0,appr:{},ws:null,sum:null});
+let S;try{S=JSON.parse(localStorage.getItem("setu2"))}catch(e){}if(!S||S.v!==2||!S.ml||!S.ml.INT||!S.ml.TRN||!S.ml.LIN||!S.appr||!S.passed||!S.ok||!S.log||!S.seen||!TG[S.cls])S=fresh();
+const sv=()=>{try{localStorage.setItem("setu2",JSON.stringify(S))}catch(e){}};
+const t=k=>U[k][S.lang],L=a=>a[S.lang],esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const sh=a=>a.map(x=>[Math.random(),x]).sort((a,b)=>a[0]-b[0]).map(x=>x[1]);
+const target=()=>TG[S.cls],chain=()=>CHN.slice(0,CHN.indexOf(target())+1).reverse(),done=c=>!!(S.passed[c]||S.ok[c]);
+const nm=c=>L(CN[c])+" (C"+CN[c][2]+")";
+function stat(c){const o=S.ml[c];return S.passed[c]?"G":S.ok[c]?"A":o.n==0?"N":o.m<.45?"R":"L"}
+function upd(c,r){const o=S.ml[c];o.m+=.3*(r-o.m);o.n++}
+function ask(id){const d=Q.find(q=>q[0]==id);S.seen[id]=(S.seen[id]||0)+1;S.q={id,c:d[1],lv:d[2],q:d[3],o:sh([{x:d[4],tag:""},...d.slice(5).map(w=>({x:w[0],tag:w[1]}))])};S.hint=0;S.fb=null}
+function begin(){if(!target())return;if(!S.name.trim()){S.nameErr=1;r();return}const k={lang:S.lang,name:S.name.trim(),cls:S.cls};S=Object.assign(fresh(),k);S.phase="qc";S.qc={i:0,k:0,r:{}};S.sum=[];ask(QCQ[chain()[0]][0]);S.why=L(["First Setu checks the topic for your class: "+nm(chain()[0])+".","पहले आपकी कक्षा का विषय जाँचते हैं: "+nm(chain()[0])+"।"]);r()}
+function answer(i){const o=S.q.o[i],ok=!o.tag;upd(S.q.c,ok?(S.hint?.6:1):0);if(o.tag)S.log[o.tag]=(S.log[o.tag]||0)+1;S.fb={ok,tag:o.tag,a:S.q.o.find(z=>!z.tag).x};r()}
+function nextTopic(){const i=CHN.indexOf(S.cur),t2=CHN.indexOf(target());for(let j=i+1;j<=t2;j++)if(!S.passed[CHN[j]])return CHN[j];return null}
+function nextSolve(){const v=S.sv;if(v.n>=5)return startTest();const p=sh(Q.filter(d=>d[1]==S.cur&&!v.used.includes(d[0]))).sort((a,b)=>Math.abs(a[2]-v.lvl)-Math.abs(b[2]-v.lvl));if(!p.length)return startTest();v.used.push(p[0][0]);ask(p[0][0]);S.phase="solve"}
+function solveGo(){if(!S.sv||S.sv.c!=S.cur)S.sv={c:S.cur,lvl:1,st:0,wr:0,wt:0,n:0,used:[],alt:0};nextSolve();r()}
+function startTest(){const p=sh(Q.filter(d=>d[1]==S.cur)).sort((a,b)=>(S.seen[a[0]]||0)-(S.seen[b[0]]||0)).slice(0,5).map(d=>d[0]);S.te={ids:p,i:0,ok:0,tags:{}};S.phase="test";ask(p[0])}
+function nxt(){const ok=S.fb.ok,ph=S.phase;
+ if(ph=="qc"){const q=S.qc,ch=chain(),c=ch[q.i];q.r[c]=(q.r[c]||0)+(ok?1:0);q.k++;
+  if(q.k<2){ask(QCQ[c][q.k]);return r()}
+  S.sum.push([c,q.r[c]]);const weak=q.r[c]<2;
+  if(weak&&q.i<ch.length-1){q.i++;q.k=0;ask(QCQ[ch[q.i]][0]);S.why=L(["Missed some of "+nm(c)+", so Setu checks what it depends on: "+nm(ch[q.i])+".","“"+L(CN[c])+"” में कुछ गलत हुआ, इसलिए जिस पर यह निर्भर है उसे जाँचते हैं: "+nm(ch[q.i])+"।"]);return r()}
+  S.root=weak?c:(q.i>0?ch[q.i-1]:null);const ri=S.root?CHN.indexOf(S.root):-1;
+  if(S.root)CHN.slice(0,ri).forEach(x=>S.ok[x]=true);else CHN.forEach(x=>S.ok[x]=true);
+  S.cur=S.root||target();S.phase="diag";S.why="";return r()}
+ if(ph=="solve"){const v=S.sv;if(ok&&!S.hint)v.st++;else v.st=0;if(ok)v.wr=0;else{v.wr++;v.wt++}v.n++;
+  if(v.st>=2){v.lvl=Math.min(3,v.lvl+1);v.st=0;S.why=L(["2 right in a row without hints: harder questions now.","बिना संकेत 2 सही: अब कठिन प्रश्न।"])}
+  if(v.wr>=2){v.lvl=Math.max(1,v.lvl-1);v.wr=0;S.why=L(["2 wrong in a row: easier questions now.","लगातार 2 गलत: अब आसान प्रश्न।"])}
+  if(v.wt>=3&&!v.alt){v.alt=1;S.v1=1;S.phase="learn";S.why=L(["You got 3 wrong, so here is a different explanation.","3 गलत हुए, इसलिए दूसरा तरीका।"]);return r()}
+  nextSolve();return r()}
+ const e=S.te;if(ok)e.ok++;else if(S.fb.tag)e.tags[S.fb.tag]=(e.tags[S.fb.tag]||0)+1;e.i++;
+ if(e.i<e.ids.length){ask(e.ids[e.i]);return r()}
+ const pct=Math.round(e.ok/e.ids.length*100);S.res={c:S.cur,pct,ok:e.ok,n:e.ids.length,tags:e.tags};
+ if(pct>=80){S.passed[S.cur]=true;S.alert=0}else if(pct<60)S.alert=1;S.phase="result";r()}
+function afterResult(){const x=S.res;if(x.pct>=80){const n=nextTopic();if(!n){S.phase="fin"}else{S.cur=n;S.v1=0;S.phase="learn";S.sv=null;S.why=L([nm(x.c)+" passed. "+nm(n)+" is unlocked.",nm(x.c)+" पास। "+nm(n)+" खुल गया।"])}}
+ else if(x.pct>=60){S.sv=null;S.why=L(["Between 60% and 79%: targeted practice, then retest.","60% से 79%: अभ्यास, फिर पुनः परीक्षा।"]);solveGo();return}
+ else{S.v1=1;S.phase="learn";S.sv=null;S.why=L(["Below 60%: re-learn with a different explanation, then retest.","60% से कम: दूसरे तरीके से फिर सीखें।"])}r()}
+const canAssign=c=>chain().includes(c)&&CHN.slice(0,CHN.indexOf(c)).every(done);
+function assign(c){if(S.phase=="home"||!canAssign(c))return;S.cur=c;S.v1=0;S.sv=null;S.phase="learn";S.tab=0;S.why=L(["Your teacher assigned this topic.","शिक्षक ने यह विषय दिया है।"]);r()}
+function map(){const X=[8,258,508],f=c=>S.passed[c]?"#DFF3E8":S.ok[c]?"#EAF7F0":"#fff";let s='<svg viewBox="0 0 710 118" width="100%" role="img"><defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#5B6086"/></marker></defs>';
+ CHN.forEach((c,j)=>{const root=S.root===c,cur=S.phase!="home"&&S.cur===c&&!root,col=root?"#E0483E":cur?"#4338CA":S.passed[c]?"#1F9D63":"#C9CDE8";
+  s+=`<rect x="${X[j]}" y="26" width="194" height="64" rx="14" fill="${root?"#FCE6E3":f(c)}" stroke="${col}" stroke-width="${root||cur?4:2}"/><text x="${X[j]+97}" y="50" text-anchor="middle" font-size="13" fill="#5B6086">${t("cl")} ${CN[c][2]}</text><text x="${X[j]+97}" y="72" text-anchor="middle" font-size="15" font-weight="700" fill="#16193B">${esc(L(CN[c]))}</text>`;
+  if(root||cur||S.ok[c]&&!S.passed[c])s+=`<text x="${X[j]+97}" y="16" text-anchor="middle" font-size="13" font-weight="700" fill="${root?"#E0483E":cur?"#4338CA":"#1F9D63"}">${root?t("gap"):cur?t("here"):t("okc")}</text>`;
+  if(j<2)s+=`<line x1="${X[j]+198}" y1="58" x2="${X[j+1]-6}" y2="58" stroke="#5B6086" stroke-width="2.5" marker-end="url(#a)"/>`});
+ return s+`</svg><div class="sm">${t("map")}</div>`}
+function dash(){const ch=chain(),p=S.phase=="home"?0:Math.round(ch.filter(done).length/ch.length*100),st={qc:0,diag:0,learn:1,solve:2,test:3,result:3}[S.phase];
+ return`<div class="card"><h3>${t("hello")}, ${esc(S.name||"…")} · ${t("cl")} ${S.cls}</h3><div class="st">${["qc","learn","sol","test"].map((k,i)=>`<span class="${i===st?"cur":""}">${t(k)}</span>`).join("")}</div><div class="sm" style="margin-top:6px">${t("prog")}: ${p}%</div><div class="bar"><i style="width:${p}%"></i></div>${map()}</div>`}
+function student(){const p=S.phase;
+ if(p=="home"){const o=[6,7,8,9,10].map(c=>`<option value="${c}" ${S.cls==c?"selected":""} ${TG[c]?"":"disabled"}>${t("cl")} ${c}${TG[c]?"":" ("+t("soon")+")"}</option>`).join("");
+  return`<div class="card"><h2>${t("sub")}</h2><label>${t("name")}</label><input value="${esc(S.name)}" oninput="S.name=this.value;sv()" maxlength="30"><div class="g2"><div><label>${t("cls")}</label><select onchange="S.cls=+this.value;r()">${o}</select></div><div><label>${t("lang")}</label><select onchange="S.lang=+this.value;r()"><option value="0" ${S.lang?"":"selected"}>English</option><option value="1" ${S.lang?"selected":""}>हिन्दी</option></select></div></div><p class="sm">${t("sup")}</p>${S.nameErr&&!S.name.trim()?`<div class="fb no">${t("nreq")}</div>`:""}<button class="p" onclick="begin()">${t("start")}</button></div>`+dash()}
+ let h=dash()+(S.why?`<div class="why"><b>${t("why")}:</b> ${S.why}</div>`:"");
+ if(p=="diag"){const lines=S.sum.map(([c,n])=>`<li>${nm(c)}: ${n}/2</li>`).join(""),ml=Object.entries(S.log).sort((a,b)=>b[1]-a[1])[0];
+  const why=S.root?L(["Your answers suggest a possible gap in "+nm(S.root)+", the deepest topic where answers looked weak. Setu starts there, because topics that depend on it may stay hard until it is solid.","आपके उत्तर "+nm(S.root)+" में संभावित कमी दिखाते हैं, जहाँ उत्तर सबसे कमज़ोर थे। Setu यहीं से शुरू करता है, क्योंकि इस पर निर्भर विषय कठिन रह सकते हैं।"]):t("rdy");
+  return h+`<div class="card"><h2>${t("d1")}</h2><ul>${lines}</ul><p>${why}</p>${ml?`<p class="sm">${L(MIS[ml[0]])}</p>`:""}<div class="why">${t("dn")}</div><button class="p" onclick="${S.root?"S.v1=0;S.phase='learn';r()":"startTest();r()"}">${S.root?t("toL"):t("toT")}</button></div>`}
+ if(p=="learn"){const le=LES[S.cur][S.v1];return h+`<div class="card"><span class="chip">${nm(S.cur)}</span><h2>${t("learn")}${S.v1?" · "+t("alt"):""}</h2><p>${L(le[0])}</p><div class="why"><b>${t("exm")}:</b> ${L(le[1])}</div><button class="p" onclick="solveGo()">${t("go")}</button></div>`}
+ if(p=="result"){const x=S.res,pass=x.pct>=80,tg=Object.keys(x.tags).map(k=>L(MIS[k])).join(" ");
+  return h+`<div class="card"><span class="chip">${nm(x.c)}</span><h2>${t("sc")}: ${x.ok}/${x.n} = ${x.pct}%</h2><div class="fb ${pass?"ok":"no"}">${pass?t("pass"):L(x.pct>=60?U.rv1:U.rv2)}</div>${tg?`<p class="sm">${tg}</p>`:""}${pass?`<button class="p" onclick="afterResult()">${nextTopic()?t("unl")+": "+nm(nextTopic()):t("cont")}</button>`:`<button class="p" onclick="afterResult()">${t("rvb")}</button><button onclick="startTest();r()">${t("rt")}</button>`}</div>`}
+ if(p=="fin")return h+`<div class="card"><h2>🎉</h2><p>${t("fin")}</p><button onclick="S=Object.assign(fresh(),{lang:S.lang,name:S.name,cls:S.cls});r()">${t("rst")}</button></div>`;
+ const q=S.q,lab=p=="qc"?t("qc")+" · "+nm(chain()[S.qc.i])+" · "+(S.qc.k+1)+"/2":p=="test"?t("test")+" · "+(S.te.i+1)+"/5":t("sol")+" · "+t("qn")+" "+(S.sv.n+1)+"/5";
+ h+=`<div class="card"><span class="chip">${lab}</span><p>${t("find")}</p><h2 style="font-size:30px">${q.q}</h2>`;
+ if(S.fb){const f=S.fb;h+=q.o.map(o=>`<div class="card" style="margin:6px 0;padding:10px;font-size:20px">${o.x}${!o.tag?" ✓":""}</div>`).join("")+`<div class="fb ${f.ok?"ok":"no"}"><b>${t(f.ok?"ok":"no")}</b> ${f.ok?"":t("ans")+": "+f.a+". "+(f.tag?L(MIS[f.tag]):"")}</div><button class="p" onclick="nxt()">${t("next")}</button></div>`}
+ else{h+=q.o.map((o,i)=>`<button class="o" onclick="answer(${i})">${o.x}</button>`).join("");if(p=="solve")h+=S.hint?`<div class="why">💡 ${L(HINT[q.c])}</div>`:`<button onclick="S.hint=1;r()">💡 ${t("hint")}</button>`;h+="</div>"}
+ return h}
+function wsheet(){const c=S.ws,qs=Q.filter(d=>d[1]==c);return`<div class="card ws"><div class="np"><button onclick="S.ws=null;r()">← ${t("bk")}</button><button class="p" onclick="window.print()">${t("pr")}</button></div><h2>Setu ${t("ws")}: ${nm(c)}</h2><p>${t("nm")}</p><ol>${qs.map(d=>`<li>${d[3]}  =  ______</li>`).join("")}</ol><p class="sm">${t("key")}: ${qs.map((d,i)=>(i+1)+") "+d[4]).join("  ")}</p></div>`}
+function grp(){const live=S.phase!="home",rows=[...(live?[[(S.name||"Live student")+" (live)",CHN.map(stat).join("")]]:[]),...SEED],gr={};
+ rows.forEach(r=>{const c=r[1],j=[...c].findIndex(x=>x!="G"&&x!="A");let k;
+  if(j<0)k=c.includes("G")?"ext":"tst";else if(c[j]=="N")k=(j>0&&c[j-1]=="G")?"rdn":"nst";else k="rev"+CHN[j];
+  (gr[k]=gr[k]||[]).push(r[0])});return{rows,gr}}
+function apprGroup(k){const g=grp().gr[k];if(g)S.appr[k]=g.join("|");r()}
+function teacher(){if(S.ws)return wsheet();const live=S.phase!="home",{rows,gr}=grp();
+ const gk=["revINT","revTRN","revLIN","rdn","tst","nst","ext"].filter(k=>gr[k]),gt=k=>k.startsWith("rev")?t("rev")+": "+nm(k.slice(3)):t(k);
+ const mp=Object.entries(S.log).map(([k,v])=>`${L(MIS[k])} (×${v})`).join("<br>");
+ const opts=CHN.filter(c=>chain().includes(c)).map(c=>`<option value="${c}" ${canAssign(c)?"":"disabled"}>${nm(c)}${canAssign(c)?"":" ("+t("lk")+")"}</option>`).join("");
+ return`<h2>${t("tw")}</h2><div class="why">${t("fic")}</div>${S.alert?`<div class="fb no">${t("al")}</div>`:""}<div class="card"><table><tr><th></th>${CHN.map(c=>`<th>${esc(L(CN[c]))}<br><small>${t("cl")} ${CN[c][2]}</small></th>`).join("")}</tr>${rows.map(r=>`<tr><td>${esc(r[0])}</td>${[...r[1]].map(s=>`<td><span class="d ${s}"></span></td>`).join("")}</tr>`).join("")}</table><div class="sm"><span class="d G"></span> Strong &nbsp;<span class="d A"></span> ${t("ag")} &nbsp;<span class="d L"></span> Learning &nbsp;<span class="d R"></span> Gap &nbsp;<span class="d N"></span> ${t("nst")}</div></div>
+ <div class="card"><h3>${t("cm")}</h3>${CHN.map((c,j)=>{const n=rows.filter(r=>r[1][j]=="G").length,p=Math.round(n/rows.length*100);return`<div class="sm">${nm(c)}: ${n}/${rows.length}</div><div class="bar"><i style="width:${p}%"></i></div>`}).join("")}</div>
+ <h3>${t("grp")}</h3>${gk.map(k=>`<div class="card"><b>${gt(k)}</b> · ${gr[k].length}<br><span class="sm">${gr[k].map(esc).join(", ")}</span><br><button class="${S.appr[k]===gr[k].join("|")?"on":""}" onclick="apprGroup('${k}')">${t(S.appr[k]===gr[k].join("|")?"apd":"ap")}</button>${k.startsWith("rev")?`<button onclick="S.ws='${k.slice(3)}';r()">${t("ws")}</button>`:""}</div>`).join("")}
+ <div class="card"><h3>${t("mis")}</h3><p class="sm">${mp||t("none")}</p><label>${t("as")}</label>${live?`<select id="asg">${opts}</select><button class="p" onclick="assign(D.getElementById('asg').value)">${t("asb")}</button>`:`<p class="sm">${t("noS")}</p>`}</div>`}
+const D=document;
+function r(){try{D.getElementById("sub").textContent=t("sub");D.getElementById("nav").innerHTML=`<button class="${S.tab?"":"on"}" onclick="S.tab=0;r()">${t("stu")}</button><button class="${S.tab?"on":""}" onclick="S.tab=1;r()">${t("tea")}</button><button onclick="S.lang=1-S.lang;r()">${S.lang?"EN":"हिं"}</button>`;D.getElementById("app").innerHTML=S.tab?teacher():student();sv()}catch(e){console.error(e);S=fresh();sv();try{D.getElementById("app").innerHTML=student()}catch(e2){}}}
+r();
+</script></body></html>
